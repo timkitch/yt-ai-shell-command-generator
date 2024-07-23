@@ -19,17 +19,17 @@ def select_shell():
         click.echo("Invalid choice. Please try again.")
 
 def generate_command(client, shell, query) -> tuple[str, int]:
-    prompt = f"{HUMAN_PROMPT}Generate a valid {shell} command for the following query: {query}. Ensure the command is complete and executable.\n{AI_PROMPT}"
+    prompt = f"{HUMAN_PROMPT}Generate a valid {shell} command for the following query: {query}. Return ONLY the command, without any explanation.\n{AI_PROMPT}"
     response: Completion = client.completions.create(
         prompt=prompt,
         max_tokens_to_sample=300,
         model="claude-v1",
         stop_sequences=[HUMAN_PROMPT]
     )
-    # Extract only the command from the response
-    command = response.completion.strip().split('\n')[0]
-    # Ensure the command is not empty
-    if not command:
+    # Extract the command from the response
+    command = response.completion.strip()
+    # Ensure the command is not empty and doesn't start with explanatory text
+    if not command or not command[0].isalnum():
         command = f"echo 'Unable to generate a valid command for: {query}'"
     # The token count is not directly available, so we'll estimate it
     # This is a rough estimate and may not be entirely accurate
