@@ -8,18 +8,21 @@ from anthropic.types import Completion
 
 load_dotenv()  # Load environment variables from .env file
 
-def select_shell():
+def select_shell(shells=['cmd', 'powershell', 'bash'], input_func=click.prompt):
     """
     Prompts the user to select their preferred shell environment from a list of options.
+    
+    Args:
+        shells (list): List of available shells.
+        input_func (function): Function to use for user input (for testing purposes).
     
     Returns:
         str: The selected shell environment.
     """
-    shells = ['cmd', 'powershell', 'bash']
     for i, shell in enumerate(shells, 1):
         click.echo(f"{i}. {shell}")
     while True:
-        choice = click.prompt("Select your preferred shell environment", type=int)
+        choice = input_func("Select your preferred shell environment", type=int)
         if 1 <= choice <= len(shells):
             return shells[choice - 1]
         click.echo("Invalid choice. Please try again.")
