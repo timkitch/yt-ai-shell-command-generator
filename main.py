@@ -14,7 +14,7 @@ def select_shell():
 
 def generate_command(client, shell, query):
     prompt = f"{HUMAN_PROMPT}Generate a {shell} command for the following query: {query}\n{AI_PROMPT}"
-    response = client.completion(
+    response = client.completions.create(
         prompt=prompt,
         max_tokens_to_sample=300,
         model="claude-v1",
