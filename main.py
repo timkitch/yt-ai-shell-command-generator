@@ -9,6 +9,12 @@ from anthropic.types import Completion
 load_dotenv()  # Load environment variables from .env file
 
 def select_shell():
+    """
+    Prompts the user to select their preferred shell environment from a list of options.
+    
+    Returns:
+        str: The selected shell environment.
+    """
     shells = ['cmd', 'powershell', 'bash']
     for i, shell in enumerate(shells, 1):
         click.echo(f"{i}. {shell}")
@@ -19,6 +25,17 @@ def select_shell():
         click.echo("Invalid choice. Please try again.")
 
 def generate_command(client, shell, query) -> tuple[str, int]:
+    """
+    Generate a shell command based on a user's query using the Anthropic API.
+    
+    Args:
+        client (Anthropic): An Anthropic API client instance.
+        shell (str): The user's preferred shell environment.
+        query (str): The user's command query.
+    
+    Returns:
+        tuple[str, int]: The generated shell command and the estimated number of tokens used.
+    """
     prompt = f"{HUMAN_PROMPT}Generate a valid {shell} command for the following query: {query}. Return ONLY the command, without any explanation.\n{AI_PROMPT}"
     response: Completion = client.completions.create(
         prompt=prompt,
