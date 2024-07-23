@@ -2,9 +2,19 @@ import os
 import click
 from anthropic import Anthropic
 
+def select_shell():
+    shells = ['cmd', 'powershell', 'bash']
+    for i, shell in enumerate(shells, 1):
+        click.echo(f"{i}. {shell}")
+    while True:
+        choice = click.prompt("Select your preferred shell environment", type=int)
+        if 1 <= choice <= len(shells):
+            return shells[choice - 1]
+        click.echo("Invalid choice. Please try again.")
+
 @click.command()
-@click.option('--shell', type=click.Choice(['cmd', 'powershell', 'bash']), prompt='Select your preferred shell environment', help='The shell environment to generate commands for.')
-def main(shell):
+def main():
+    shell = select_shell()
     client = Anthropic(
         api_key=os.environ.get("ANTHROPIC_API_KEY"),
     )
