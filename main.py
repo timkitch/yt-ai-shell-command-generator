@@ -1,5 +1,6 @@
 import os
 import click
+import pyperclip
 from dotenv import load_dotenv
 from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
 from click import style
@@ -30,6 +31,10 @@ def generate_command(client, shell, query) -> tuple[str, int]:
     estimated_tokens = len(response.completion.split()) + len(prompt.split())
     return response.completion.strip(), estimated_tokens
 
+def copy_to_clipboard(text):
+    pyperclip.copy(text)
+    click.echo(style("Command copied to clipboard!", fg="green"))
+
 @click.command()
 def main():
     shell = select_shell()
@@ -51,6 +56,10 @@ def main():
         click.echo(style(command, fg="green"))
         click.echo(style(f"Tokens used: {tokens}", fg="blue"))
         click.echo(style(f"Total tokens used this session: {total_tokens}", fg="magenta"))
+        
+        if click.confirm("Do you want to copy this command to clipboard?"):
+            copy_to_clipboard(command)
+        
         click.echo()  # Add an empty line for better readability
 
     click.echo(style("Exiting Shell Command Generator.", fg="red", bold=True))
