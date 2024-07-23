@@ -63,7 +63,7 @@ def generate_command(client, shell, query) -> tuple[str, int]:
 def copy_to_clipboard(text):
     pyperclip.copy(text)
     click.echo(style("Command copied to clipboard!", fg="green"))
-    
+
 @click.command()
 def main():
     shell = select_shell()
