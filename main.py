@@ -66,7 +66,7 @@ def copy_to_clipboard(text):
     
 def unused_func():
     print("I'm totally worthless!")
-
+    
 @click.command()
 def main():
     shell = select_shell()
