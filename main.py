@@ -22,9 +22,13 @@ def select_shell(shells=['cmd', 'powershell', 'bash'], input_func=click.prompt):
     for i, shell in enumerate(shells, 1):
         click.echo(f"{i}. {shell}")
     while True:
-        choice = input_func("Select your preferred shell environment", type=int)
-        if 1 <= choice <= len(shells):
-            return shells[choice - 1]
+        choice = input_func("Select your preferred shell environment")
+        try:
+            choice = int(choice)
+            if 1 <= choice <= len(shells):
+                return shells[choice - 1]
+        except ValueError:
+            pass
         click.echo("Invalid choice. Please try again.")
 
 def generate_command(client, shell, query) -> tuple[str, int]:
