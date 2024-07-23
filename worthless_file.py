@@ -1,2 +1,2 @@
-def unused_func():
+def totally_unused_func():
     print("I'm totally worthless!")
