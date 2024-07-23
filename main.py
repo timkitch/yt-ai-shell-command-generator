@@ -55,12 +55,15 @@ def main():
         command, tokens = generate_command(client, shell, query)
         total_tokens += tokens
         click.echo(style(f"\nGenerated command for {shell}:", fg="yellow", bold=True))
-        click.echo(style(command, fg="green"))
+        click.echo(command)  # Print the command without any styling
         click.echo(style(f"Tokens used: {tokens}", fg="blue"))
         click.echo(style(f"Total tokens used this session: {total_tokens}", fg="magenta"))
         
         if click.confirm("Do you want to copy this command to clipboard?"):
             copy_to_clipboard(command)
+        
+        click.echo(style("\nCommand (for easy copy-paste):", fg="cyan"))
+        click.echo(command)  # Print the command again for easy copy-paste
         
         click.echo()  # Add an empty line for better readability
 
