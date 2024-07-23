@@ -25,7 +25,10 @@ def generate_command(client, shell, query) -> tuple[str, int]:
         model="claude-v1",
         stop_sequences=[HUMAN_PROMPT]
     )
-    return response.completion.strip(), response.usage.completion_tokens
+    # The token count is not directly available, so we'll estimate it
+    # This is a rough estimate and may not be entirely accurate
+    estimated_tokens = len(response.completion.split()) + len(prompt.split())
+    return response.completion.strip(), estimated_tokens
 
 @click.command()
 def main():
