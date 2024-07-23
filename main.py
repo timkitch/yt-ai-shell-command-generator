@@ -1,6 +1,9 @@
 import os
 import click
+from dotenv import load_dotenv
 from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
+
+load_dotenv()  # Load environment variables from .env file
 
 def select_shell():
     shells = ['cmd', 'powershell', 'bash']
@@ -25,9 +28,10 @@ def generate_command(client, shell, query):
 @click.command()
 def main():
     shell = select_shell()
-    client = Anthropic(
-        api_key=os.environ.get("ANTHROPIC_API_KEY"),
-    )
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise ValueError("ANTHROPIC_API_KEY not found in environment variables")
+    client = Anthropic(api_key=api_key)
     
     click.echo(f"Shell Command Generator initialized for {shell}.")
     
