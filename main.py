@@ -2,6 +2,7 @@ import os
 import click
 from dotenv import load_dotenv
 from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
+from click import style
 
 load_dotenv()  # Load environment variables from .env file
 
@@ -33,17 +34,18 @@ def main():
         raise ValueError("ANTHROPIC_API_KEY not found in environment variables")
     client = Anthropic(api_key=api_key)
     
-    click.echo(f"Shell Command Generator initialized for {shell}.")
+    click.echo(style(f"Shell Command Generator initialized for {shell}.", fg="green", bold=True))
     
     while True:
-        query = click.prompt("Enter your command query (or 'exit' to quit)")
+        query = click.prompt(style("Enter your command query (or 'exit' to quit)", fg="cyan"))
         if query.lower() == 'exit':
             break
         command = generate_command(client, shell, query)
-        click.echo(f"Generated command for {shell}:")
-        click.echo(command)
+        click.echo(style(f"\nGenerated command for {shell}:", fg="yellow", bold=True))
+        click.echo(style(command, fg="green"))
+        click.echo()  # Add an empty line for better readability
 
-    click.echo("Exiting Shell Command Generator.")
+    click.echo(style("Exiting Shell Command Generator.", fg="red", bold=True))
 
 if __name__ == "__main__":
     main()
