@@ -63,9 +63,9 @@ def generate_command(client, shell, query) -> tuple[str, int]:
 def copy_to_clipboard(text):
     pyperclip.copy(text)
     click.echo(style("Command copied to clipboard!", fg="green"))
-    
+
 def unused_func():
-    print("I'm totally worthless!")
+    print("I'm totally useless!")
 
 @click.command()
 def main():
