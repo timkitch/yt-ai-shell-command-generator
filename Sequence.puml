@@ -1,0 +1,45 @@
+@startuml
+actor User
+participant "main()" as Main
+participant "select_shell()" as SelectShell
+participant "Anthropic API" as API
+participant "generate_command()" as GenerateCommand
+participant "copy_to_clipboard()" as Clipboard
+
+User -> Main: Run application
+activate Main
+
+Main -> SelectShell: Call select_shell()
+activate SelectShell
+User -> SelectShell: Choose shell
+SelectShell --> Main: Return selected shell
+deactivate SelectShell
+
+loop Until user exits
+    User -> Main: Enter command query
+    Main -> GenerateCommand: Call generate_command()
+    activate GenerateCommand
+    GenerateCommand -> API: Send query
+    activate API
+    API --> GenerateCommand: Return generated command
+    deactivate API
+    GenerateCommand --> Main: Return command and token count
+    deactivate GenerateCommand
+
+    Main -> User: Display generated command
+    
+    alt User chooses to copy
+        User -> Main: Confirm copy to clipboard
+        Main -> Clipboard: Call copy_to_clipboard()
+        activate Clipboard
+        Clipboard --> Main: Command copied
+        deactivate Clipboard
+        Main -> User: Confirm copy action
+    end
+end
+
+User -> Main: Exit application
+Main -> User: Display total tokens used
+deactivate Main
+
+@enduml
