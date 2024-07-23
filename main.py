@@ -1,6 +1,6 @@
 import os
 import click
-from anthropic import Anthropic
+from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
 
 def select_shell():
     shells = ['cmd', 'powershell', 'bash']
@@ -11,6 +11,16 @@ def select_shell():
         if 1 <= choice <= len(shells):
             return shells[choice - 1]
         click.echo("Invalid choice. Please try again.")
+
+def generate_command(client, shell, query):
+    prompt = f"{HUMAN_PROMPT}Generate a {shell} command for the following query: {query}\n{AI_PROMPT}"
+    response = client.completion(
+        prompt=prompt,
+        max_tokens_to_sample=300,
+        model="claude-v1",
+        stop_sequences=[HUMAN_PROMPT]
+    )
+    return response.completion.strip()
 
 @click.command()
 def main():
@@ -25,8 +35,9 @@ def main():
         query = click.prompt("Enter your command query (or 'exit' to quit)")
         if query.lower() == 'exit':
             break
-        click.echo(f"Your query for {shell}: {query}")
-        # TODO: Process the query and generate the command
+        command = generate_command(client, shell, query)
+        click.echo(f"Generated command for {shell}:")
+        click.echo(command)
 
     click.echo("Exiting Shell Command Generator.")
 
