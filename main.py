@@ -41,7 +41,7 @@ def generate_command(client, shell, query) -> tuple[str, int]:
         query (str): The user's command query.
     
     Returns:
-        tuple[str, int]: The generated shell command and the estimated number of tokens used.
+        tuple[str, int]: The generated shell command and the actual number of tokens used.
     """
     prompt = f"{HUMAN_PROMPT}Generate a valid {shell} command for the following query: {query}. Return ONLY the command, without any explanation.\n{AI_PROMPT}"
     response: Completion = client.completions.create(
@@ -55,10 +55,9 @@ def generate_command(client, shell, query) -> tuple[str, int]:
     # Ensure the command is not empty and doesn't start with explanatory text
     if not command or not command[0].isalnum():
         command = f"echo 'Unable to generate a valid command for: {query}'"
-    # The token count is not directly available, so we'll estimate it
-    # This is a rough estimate and may not be entirely accurate
-    estimated_tokens = len(command.split()) + len(prompt.split())
-    return command, estimated_tokens
+    # Get the actual token count from the usage property
+    total_tokens = response.usage.input_tokens + response.usage.output_tokens
+    return command, total_tokens
 
 def copy_to_clipboard(text):
     pyperclip.copy(text)
@@ -83,7 +82,7 @@ def main():
         total_tokens += tokens
         click.echo(style(f"\nGenerated command for {shell}:", fg="yellow", bold=True))
         click.echo(command)  # Print the command without any styling
-        click.echo(style(f"Tokens used: {tokens}", fg="blue"))
+        click.echo(style(f"Tokens used: {tokens} (Input: {response.usage.input_tokens}, Output: {response.usage.output_tokens})", fg="blue"))
         click.echo(style(f"Total tokens used this session: {total_tokens}", fg="magenta"))
         
         if click.confirm("Do you want to copy this command to clipboard?"):
