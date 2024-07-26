@@ -8,7 +8,7 @@ Shell Command Generator is a Python-based CLI application that generates shell c
 
 - Python 3.x
 - Click (for CLI interface)
-- Anthropic API (for command generation)
+- Anthropic API with Claude 3.5 Sonnet model (for command generation)
 - python-dotenv (for environment variable management)
 - pyperclip (for clipboard functionality)
 
@@ -16,7 +16,7 @@ Shell Command Generator is a Python-based CLI application that generates shell c
 
 1. The user selects their preferred shell environment (cmd, powershell, or bash).
 2. The user inputs a query describing the command they need.
-3. The application sends the query to the Anthropic API, which generates a suitable shell command.
+3. The application sends the query to the Anthropic API using the Claude 3.5 Sonnet model, which generates a suitable shell command.
 4. The generated command is displayed to the user and can be copied to the clipboard.
 5. The process repeats until the user chooses to exit.
 
@@ -43,6 +43,18 @@ Shell Command Generator is a Python-based CLI application that generates shell c
    ```
    ANTHROPIC_API_KEY=your_api_key_here
    ```
+
+## Obtaining an Anthropic API Key
+
+To use this project, you'll need an API key from Anthropic. Here's how to get one:
+
+1. Go to the Anthropic website (https://www.anthropic.com)
+2. Sign up for an account or log in if you already have one
+3. Navigate to the API section of your account dashboard
+4. Generate a new API key
+5. Copy the API key and paste it into your `.env` file as shown in the installation steps
+
+Note: Keep your API key confidential and never share it publicly.
 
 ## Usage
 
