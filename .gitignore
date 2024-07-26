@@ -1,6 +1,6 @@
 .aider*
-.env
 venv/
 __pycache__/
 *.pyc
 .env
+.env-example
