@@ -24,7 +24,7 @@ Shell Command Generator is a Python-based CLI application that generates shell c
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/shell-command-generator.git
+   git clone https://github.com/timkitch/yt-ai-shell-command-generator.git
    cd shell-command-generator
    ```
 
