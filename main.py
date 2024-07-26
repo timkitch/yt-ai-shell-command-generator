@@ -78,18 +78,19 @@ def main():
         query = click.prompt(style("Enter your command query (or 'exit' to quit)", fg="cyan"))
         if query.lower() == 'exit':
             break
-        command, tokens = generate_command(client, shell, query)
-        total_tokens += tokens
+        command, usage = generate_command(client, shell, query)
+        total_tokens += usage['total_tokens']
         click.echo(style(f"\nGenerated command for {shell}:", fg="yellow", bold=True))
-        click.echo(command)  # Print the command without any styling
-        click.echo(style(f"Tokens used: {tokens} (Input: {response.usage.input_tokens}, Output: {response.usage.output_tokens})", fg="blue"))
+        click.echo(style(command, fg="green"))  # Print the command with green styling
+        click.echo(style(f"Tokens used: {usage['total_tokens']} (Input: {usage['input_tokens']}, Output: {usage['output_tokens']})", fg="blue"))
         click.echo(style(f"Total tokens used this session: {total_tokens}", fg="magenta"))
         
-        if click.confirm("Do you want to copy this command to clipboard?"):
+        if click.confirm(style("Do you want to copy this command to clipboard?", fg="cyan")):
             copy_to_clipboard(command)
+            click.echo(style("Command copied to clipboard!", fg="green"))
         
         click.echo(style("\nCommand (for easy copy-paste):", fg="cyan"))
-        click.echo(command)  # Print the command again for easy copy-paste
+        click.echo(command)  # Print the command again without styling for easy copy-paste
         
         click.echo()  # Add an empty line for better readability
 
