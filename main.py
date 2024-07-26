@@ -43,7 +43,7 @@ def generate_command(client, shell, query) -> str:
     Returns:
         str: The generated shell command.
     """
-    response: Completion = client.messages.create(
+    response = client.messages.create(
         model="claude-3-5-sonnet-20240620",
         max_tokens=300,
         messages=[
@@ -54,7 +54,7 @@ def generate_command(client, shell, query) -> str:
         ]
     )
     # Extract the command from the response
-    command = response.completion.strip()
+    command = response.content[0].text.strip()
     # Ensure the command is not empty and doesn't start with explanatory text
     if not command or not command[0].isalnum():
         command = f"echo 'Unable to generate a valid command for: {query}'"
