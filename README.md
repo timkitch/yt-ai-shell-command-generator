@@ -71,6 +71,31 @@ Note: Keep your API key confidential and never share it publicly.
 
 5. Type 'exit' when you're done to quit the application.
 
+## Example Usage
+
+Here's an example of a user session with the Shell Command Generator:
+
+```
+(venv) timkitch@TimsBeelinkPC:~/ai-projects/yt-ai-shell-command-generator$ python main.py 
+1. cmd
+2. powershell
+3. bash
+Select your preferred shell environment: 3
+Shell Command Generator initialized for bash.
+Enter your command query (or 'exit' to quit): give me a command to back up my home directory to an external drive
+
+Generated command for bash:
+rsync -avz --delete ~/. /path/to/external/drive/backup/
+Do you want to copy this command to clipboard? [y/N]: N
+
+Command (for easy copy-paste):
+rsync -avz --delete ~/. /path/to/external/drive/backup/
+
+Enter your command query (or 'exit' to quit):
+```
+
+This example demonstrates how the application prompts the user to select a shell environment, accepts a command query, generates a suitable command, and provides options for clipboard copying.
+
 ## Testing
 
 To run the unit tests:
