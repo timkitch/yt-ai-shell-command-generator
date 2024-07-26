@@ -110,4 +110,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is open source and available under the [MIT License](LICENSE). This means you're free to use, modify, and distribute the code, even for commercial purposes, as long as you include the original copyright notice and license terms.
