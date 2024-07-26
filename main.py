@@ -43,12 +43,15 @@ def generate_command(client, shell, query) -> str:
     Returns:
         str: The generated shell command.
     """
-    prompt = f"{HUMAN_PROMPT}Generate a valid {shell} command for the following query: {query}. Return ONLY the command, without any explanation.\n{AI_PROMPT}"
-    response: Completion = client.completions.create(
-        prompt=prompt,
-        max_tokens_to_sample=300,
-        model="claude-v1",
-        stop_sequences=[HUMAN_PROMPT]
+    response: Completion = client.messages.create(
+        model="claude-3-5-sonnet-20240620",
+        max_tokens=300,
+        messages=[
+            {
+                "role": "user",
+                "content": f"Generate a valid {shell} command for the following query: {query}. Return ONLY the command, without any explanation."
+            }
+        ]
     )
     # Extract the command from the response
     command = response.completion.strip()
