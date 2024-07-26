@@ -31,7 +31,7 @@ def select_shell(shells=['cmd', 'powershell', 'bash'], input_func=click.prompt):
             pass
         click.echo("Invalid choice. Please try again.")
 
-def generate_command(client, shell, query) -> tuple[str, int]:
+def generate_command(client, shell, query) -> str:
     """
     Generate a shell command based on a user's query using the Anthropic API.
     
@@ -41,7 +41,7 @@ def generate_command(client, shell, query) -> tuple[str, int]:
         query (str): The user's command query.
     
     Returns:
-        tuple[str, int]: The generated shell command and the actual number of tokens used.
+        str: The generated shell command.
     """
     prompt = f"{HUMAN_PROMPT}Generate a valid {shell} command for the following query: {query}. Return ONLY the command, without any explanation.\n{AI_PROMPT}"
     response: Completion = client.completions.create(
@@ -55,9 +55,7 @@ def generate_command(client, shell, query) -> tuple[str, int]:
     # Ensure the command is not empty and doesn't start with explanatory text
     if not command or not command[0].isalnum():
         command = f"echo 'Unable to generate a valid command for: {query}'"
-    # Get the actual token count from the usage property
-    total_tokens = response.usage.input_tokens + response.usage.output_tokens
-    return command, total_tokens
+    return command
 
 def copy_to_clipboard(text):
     pyperclip.copy(text)
@@ -73,17 +71,13 @@ def main():
     
     click.echo(style(f"Shell Command Generator initialized for {shell}.", fg="green", bold=True))
     
-    total_tokens = 0
     while True:
         query = click.prompt(style("Enter your command query (or 'exit' to quit)", fg="cyan"))
         if query.lower() == 'exit':
             break
-        command, usage = generate_command(client, shell, query)
-        total_tokens += usage['total_tokens']
+        command = generate_command(client, shell, query)
         click.echo(style(f"\nGenerated command for {shell}:", fg="yellow", bold=True))
         click.echo(style(command, fg="green"))  # Print the command with green styling
-        click.echo(style(f"Tokens used: {usage['total_tokens']} (Input: {usage['input_tokens']}, Output: {usage['output_tokens']})", fg="blue"))
-        click.echo(style(f"Total tokens used this session: {total_tokens}", fg="magenta"))
         
         if click.confirm(style("Do you want to copy this command to clipboard?", fg="cyan")):
             copy_to_clipboard(command)
@@ -95,7 +89,6 @@ def main():
         click.echo()  # Add an empty line for better readability
 
     click.echo(style("Exiting Shell Command Generator.", fg="red", bold=True))
-    click.echo(style(f"Total tokens used this session: {total_tokens}", fg="magenta", bold=True))
 
 if __name__ == "__main__":
     main()
