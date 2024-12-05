@@ -23,15 +23,9 @@ Acceptance Criteria
 
 Tasks
 
-	1.	[Category or Phase (e.g., Backend Development)]
-	•	Describe specific task(s) to complete the story.
-	•	Example: Integrate [API or tool] to handle [specific functionality].
-	2.	[Category or Phase (e.g., Frontend Development)]
-	•	Describe specific UI/UX or interaction tasks.
-	•	Example: Add [feature or component] to [specific screen/page].
-	3.	[Category or Phase (e.g., Testing)]
-	•	Outline test cases to validate the story implementation.
-	•	Example: Test [specific feature] under [specific scenario].
+[] Task 1 description
+[] Task 2 description
+	
 
 Additional Notes
 
