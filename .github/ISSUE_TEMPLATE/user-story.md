@@ -23,8 +23,8 @@ Acceptance Criteria
 
 Tasks
 
-[] Task 1 description
-[] Task 2 description
+- [] Task 1 description
+- [] Task 2 description
 	
 
 Additional Notes
