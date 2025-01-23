@@ -2,7 +2,7 @@ import os
 import click
 import pyperclip
 from dotenv import load_dotenv
-from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
+from anthropic import Anthropic
 from click import style
 from anthropic.types import Completion
 
